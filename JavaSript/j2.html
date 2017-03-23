@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>展示页效果</title>
+<style>
+	body{
+		margin: 0;
+		background-color: #999;
+	}
+	#wrap{
+		height: 500px;
+		background: url(../images/bg-1.png) no-repeat center;
+		background-size: 1800px 500px;
+		position: relative;
+		transform-style: preserve-3d;
+		perspective: 800px;
+		margin-top: 100px;
+	}
+	img{
+		border: none;
+		vertical-align: top;
+	}
+	#wrap img{
+		width: 300px;
+		height: 200px;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		margin-left: -150px;
+		margin-top: -100px;
+		transition: .7s ease-in-out;
+	}
+</style>
+</head>
+<body>
+<div id="wrap">
+	<img src="../images/0.png"/>
+	<img src="../images/1.png"/>
+	<img src="../images/2.png"/>
+	<img src="../images/3.png"/>
+	<img src="../images/4.png"/>
+	<img src="../images/5.png"/>
+	<img src="../images/6.png"/>
+</div>
+<script>
+	var imgs = document.getElementsByTagName("img");
+	var now=6;
+	var target;
+	/*
+	*   0 1 2  3  4 5 6
+	*   -1(6) 0 1 2  3 4 5
+	*   1 2 3  4  5 6 0
+	*	2 3 4  5  6 7(0) 8(1)
+	* */
+	setTimeout(function(){
+		tab(now);
+	},100)
+	var onOff=true;
+	for(var i=0;i<imgs.length;i++){
+		imgs[i].index=i;
+		imgs[i].onclick=function(){
+			if(!onOff){
+				return;
+			}
+			onOff=false;
+			target=this.index;
+			if(target>now){
+				if(target-now<=3){
+					goNext();
+				}else{
+					goPrev();
+				}
+			}else{
+				if(target + 7 - now <= 3){
+					goNext();
+				}else{
+					goPrev();
+				}
+			}
+			//goNext();
+			//goPrev();
+		}
+	}
+	function goNext(){
+		now++;
+		if(now>6){
+			now=0;
+		}
+		tab(now);
+		if(now==target){
+			onOff = true;
+			return;
+		}
+		setTimeout(goNext,700);
+	}
+	function goPrev(){
+		now--;
+		if(now<0){
+			now=6;
+		}
+		tab(now);
+		if(now==target){
+			onOff = true;
+			return;
+		}
+		setTimeout(goPrev,700);
+	}
+	function tab(n){
+		for(var i= 0;i<3;i++){
+			var Left=n-1-i;
+			if(Left<0){
+				Left=Left+7;
+			}
+			imgs[Left].style.transform="translateX("+(-150*(i+1))+"px) translateZ("+(200-i*100)+"px) rotateY(30deg)";
+			var Right=n+1+i;
+			if(Right>6){
+				Right=Right-7;
+			}
+			imgs[Right].style.transform="translateX("+(150*(i+1))+"px) translateZ("+(200-i*100)+"px) rotateY(-30deg)";
+		}
+		imgs[n].style.transform="translateZ(300px)";
+	}
+
+</script>
+</body>
+</html>

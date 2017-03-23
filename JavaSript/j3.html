@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>图片切换(动画版)</title>
+	<style>
+		body{
+			margin: 0;
+			background-color: #5e5e5e;
+		}
+		#box{
+			width: 857px;
+			height: 574px;
+			padding-top: 126px;
+			padding-left:143px;
+			background: url(../images/bg-2.png) no-repeat;
+			margin: 0 auto;
+		}
+		#wrap{
+			width: 700px;
+			height: 420px;
+			transform-style: preserve-3d;
+			perspective: 800px;
+		}
+		#wrap div{
+			width: 10px;
+			height: 420px;
+			background: url(../images/01.png) no-repeat;
+			float: left;
+			transition: .5s;
+		}
+	</style>
+</head>
+<body>
+<div id="box">
+	<div id="wrap">
+	</div>
+</div>
+<script>
+	var wrap = document.getElementById("wrap");
+	var str="";
+	for(var i=0;i<70;i++){
+		str+="<div style='background-position-x:"+i*(-10)+"px'></div>";
+	}
+	wrap.innerHTML=str;
+	var divs=wrap.getElementsByTagName('div');
+	var num=0;
+	var timer=null;
+	var srcNum=2;
+	go();
+	function go(){
+		timer=setInterval(function(){
+			tab(num);
+			num++;
+			if(num==71){
+				clearInterval(timer);
+				srcNum++;
+				if(srcNum==6){
+					srcNum=1;
+				}
+				num=0;
+				setTimeout(go,500);
+			}
+		},100);
+	}
+	function tab(n){
+		if(divs[n-1]){
+			divs[n-1].style.opacity=1;
+		}
+		if(divs[n]){
+			divs[n].style.opacity=0;
+			divs[n].style.backgroundImage='url(../images/0'+srcNum+'.png)';
+		}
+	}
+</script>
+</body>
+</html>

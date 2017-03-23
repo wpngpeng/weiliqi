@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>折扇</title>
+	<style>
+		body{
+			margin: 0;
+			background-color: #666;
+		}
+		#box{
+			width: 1200px;
+			height: 700px;
+			background: url(../images/bg.png) no-repeat;
+			position: relative;
+			margin: 100px auto;
+		}
+		#box div{
+			width: 400px;
+			height: 100px;
+			border-radius: 9px;
+			position: absolute;
+			left: 555px;
+			top: 440px;
+			background: url(../images/logo.png) no-repeat 285px 60px;
+			transform-origin: 35px 50px;
+			transition: 1s;
+		}
+		#box div:nth-of-type(1){
+			background-color: #417191;
+		}
+		#box div:nth-of-type(2){
+			background-color: #ce8298;
+		}
+		#box div:nth-of-type(3){
+			background-color: #f78992;
+		}
+		#box div:nth-of-type(4){
+			background-color: #fbc0a5;
+		}
+		#box div:nth-of-type(5){
+			background-color: #f8988f;
+		}
+		#box div:nth-of-type(6){
+			background-color: #f16273;
+		}
+		#box div:nth-of-type(7){
+			background-color: #9c9fcd;
+		}
+		#box div:nth-of-type(8){
+			background-color: #bae2d3;
+		}
+		#box div:nth-of-type(9){
+			background-color: #43bab8;
+		}
+		#box div:nth-of-type(10){
+			background-color: #678d95;
+			/*transform: rotate(60deg);*/
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+	<script>
+		var box = document.getElementById("box");
+		var divs = box.getElementsByTagName("div");
+		var onOff=true;
+		divs[divs.length-1].onclick=function(){
+			if(onOff){
+				shink();
+			}else{
+				go();
+			}
+			onOff=!onOff;
+		}
+		/*
+			点击每个扇形,点击的扇形变成270度
+			8  270  214  56
+			7  270	231  39
+			6  270	248  22
+
+			3  270  299  -29
+		 */
+		for(var i=0;i<divs.length-1;i++){
+			divs[i].index=i;
+			divs[i].onclick=function(){
+				for(var i=0;i<divs.length;i++){
+					if(i<this.index){
+						divs[i].style.transform= "rotate("+(350-(i*14)+this.index*17-80-10)+"deg)";
+					}
+					if(i>this.index){
+						divs[i].style.transform= "rotate("+(350-(i*14)+this.index*17-80-23)+"deg)";
+					}
+				}
+				divs[this.index].style.transform= "rotate("+(350-(this.index*17)+this.index*17-80)+"deg)";
+			}
+		}
+
+		/*展开扇形*/
+		setTimeout(go,300);
+		function go(){
+			for(var i=0;i<divs.length;i++){
+				divs[i].style.transform= "rotate("+(350-(i*17))+"deg)";
+			}
+		}
+
+		/*点击最后一个扇形关闭*/
+		function shink(){
+			for(var i=0;i<divs.length;i++){
+				divs[i].style.transform= "rotate(0deg)";
+			}
+		}
+	</script>
+</body>
+</html>
